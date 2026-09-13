@@ -1,0 +1,26 @@
+{
+  "name": "yunta-stt-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers AI Speech-To-Text (STT) Microservice for Yunta Code Agent Harness",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers-ai",
+    "whisper",
+    "speech-to-text",
+    "stt",
+    "yunta"
+  ],
+  "author": "j0sp0nc3",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240903.0",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.75.0"
+  }
+}
