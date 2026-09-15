@@ -6,9 +6,11 @@ Microservicio Serverless de Transcripción de Voz a Texto (**Speech-To-Text STT*
 
 ## 🌟 Características
 
-- **100% Compatible con OpenAI Whisper API**: Expone el endpoint `/v1/audio/transcriptions`.
+- **100% Compatible con OpenAI Audio API**: Expone `/v1/audio/transcriptions` (STT) y `/v1/audio/speech` (TTS).
+- **Speech-To-Text (STT)**: Transcripción de voz alimentada por `@cf/openai/whisper`.
+- **Text-To-Speech (TTS)**: Síntesis de voz en español alimentada por `@cf/meta/mms-tts-spa`.
 - **Cero Mantenimiento & Costo $0**: Corre sobre el plan gratuito de Cloudflare Workers AI (hasta 10,000 ejecuciones diarias gratis).
-- **Inmunidad a Ruido de Fondo**: Modelo Whisper Large V3 ejecutado en la red Edge de Cloudflare.
+- **Inmunidad a Ruido de Fondo**: Ejecución en la red Edge de Cloudflare.
 - **Soporte CORS y Autenticación por Token Bearer** opcional.
 - **CI/CD Automático**: Despliegue continuo en cada `git push main` vía GitHub Actions (`wrangler-action`).
 
