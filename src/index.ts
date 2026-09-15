@@ -104,9 +104,26 @@ export default {
         }
       );
     } catch (err: any) {
+      const msg: string = err?.message || "Internal server error";
+      // 3006 = Workers AI "Request is too large": el formato de entrada
+      // audio:[...Uint8Array] (array JSON de números) infla el payload ~4-5x
+      // y Workers AI lo rechaza. El cliente debe fragmentar el audio y
+      // reintentar (ver https://developers.cloudflare.com/workers-ai/guides/tutorials/build-a-workers-ai-whisper-with-chunking/).
+      const tooLarge = msg.includes("3006") || msg.toLowerCase().includes("too large");
       return new Response(
-        JSON.stringify({ error: { message: err.message || "Internal server error", type: "api_error" } }),
-        { status: 500, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
+        JSON.stringify({
+          error: {
+            message: tooLarge
+              ? "Audio payload too large for Workers AI (input array inflates ~4-5x). Split the audio into smaller chunks (~1-2 MB) and retry."
+              : msg,
+            code: tooLarge ? 3006 : undefined,
+            type: tooLarge ? "request_too_large" : "api_error",
+          },
+        }),
+        {
+          status: tooLarge ? 413 : 500,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+        }
       );
     }
   },
